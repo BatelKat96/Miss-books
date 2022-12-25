@@ -5,6 +5,7 @@ import { BooksList } from '../cmps/books-list.jsx';
 import { BooksFilter } from '../cmps/books-filter.jsx';
 import { UserMsg } from '../cmps/user-msg.jsx';
 import { BookDetails } from './book-details.jsx';
+import { BookEdit } from '../cmps/book-edit.jsx';
 
 import { booksService } from '../services/books.service.js'
 
@@ -56,10 +57,10 @@ export function BooksIndex() {
 
 
     return <section className="books-index ">
-        <h1>Hello from books app!</h1>
         {userMsg && <UserMsg msg={userMsg} />}
         {!selectedBook && <div>
             <BooksFilter onSetFilter={onSetFilter} />
+            <BookEdit />
             <BooksList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />
         </div>}
 

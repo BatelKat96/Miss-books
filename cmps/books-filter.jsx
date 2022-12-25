@@ -25,7 +25,7 @@ export function BooksFilter({ onSetFilter }) {
     }
 
 
-    // console.log('filterByToEdit:', filterByToEdit)
+    console.log('filterByToEdit:', filterByToEdit)
 
     return <section className="books-filter">
         <h2>Filter our books</h2>
@@ -47,6 +47,32 @@ export function BooksFilter({ onSetFilter }) {
                 value={filterByToEdit.minPrice}
                 onChange={handleChange}
             />
+
+            <label htmlFor="authors">Authors:</label>
+            <input type="text"
+                id="authors"
+                name="authors"
+                placeholder="By authors"
+                value={filterByToEdit.authors}
+                onChange={handleChange}
+            />
+
+            <label htmlFor="language">Choose a language:</label>
+            <select name="language" id="language"
+                onChange={handleChange}>
+                <option value="en">English</option>
+                <option value="sp">Spanish</option>
+                <option value="he">Hebrew</option>
+            </select>
+
+            <label htmlFor="currency">Choose a currency code:</label>
+            <select name="currency" id="currency"
+                onChange={handleChange}>
+                <option value="EUR">EUR</option>
+                <option value="ILS">ILS</option>
+                <option value="USD">USD</option>
+            </select>
+
 
             <button>Filter books!</button>
         </form>

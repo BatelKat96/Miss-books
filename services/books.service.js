@@ -22,8 +22,21 @@ function query(filterBy = getDefaultFilter()) {
                 const regex = new RegExp(filterBy.txt, 'i')
                 books = books.filter(book => regex.test(book.title))
             }
+            if (filterBy.authors) {
+
+                const regex = new RegExp(filterBy.authors, 'i')
+                books = books.filter(book => regex.test(book.authors))
+            }
             if (filterBy.minPrice) {
                 books = books.filter(book => book.price >= filterBy.minPrice)
+            }
+            if (filterBy.language) {
+                const regex = new RegExp(filterBy.language, 'i')
+                books = books.filter(book => regex.test(book.language))
+            }
+            if (filterBy.currency) {
+                const regex = new RegExp(filterBy.currency, 'i')
+                books = books.filter(book => regex.test(book.listPrice.currencyCode))
             }
             return books
         })
@@ -51,7 +64,7 @@ function getEmptyBook(title = '', price = '') {
 }
 
 function getDefaultFilter() {
-    return { txt: '', minPrice: '' }
+    return { txt: '', minPrice: '', authors: '', language: '', currencyCode: '' }
 }
 
 function _createBooks() {
@@ -64,8 +77,6 @@ function _createBooks() {
         // books.push(_createBook('Harry Potter', 150))
         utilService.saveToStorage(BOOKS_KEY, books)
     }
-
-    console.log('books:', books)
 
 }
 
