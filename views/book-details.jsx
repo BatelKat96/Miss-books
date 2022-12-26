@@ -1,3 +1,4 @@
+import { LongTxt } from "../cmps/long-txt.jsx";
 
 
 export function BookDetails({ book, onGoBack }) {
@@ -21,14 +22,20 @@ export function BookDetails({ book, onGoBack }) {
         if (book.language === 'he') return 'Hebrew'
     }
 
+    function checkBookPrice() {
+        if (book.listPrice.amount > 150) return 'red'
+        else if (book.listPrice.amount < 20) return 'green'
+
+    }
+
 
     return <section className="book-details">
         <h1>{book.title}</h1>
         <h2>{book.authors}</h2>
         <img src={book.thumbnail} />
-        <h3 className={`${(book.listPrice.amount) > 150 && "red"} || ${(book.listPrice.amount) < 20 && "green"}`} >Price: {book.listPrice.amount} {book.listPrice.currencyCode}</h3>
+        <h3 className={checkBookPrice()} >Price: {book.listPrice.amount} {book.listPrice.currencyCode}</h3>
         <h4>Description:</h4>
-        <p>{book.description}</p>
+        <LongTxt txt={book.description} length={100} />
         <p> Page Count: {book.pageCount} page {bookPage()}</p>
         <p>Published Date: {book.publishedDate} {bookYear()}</p>
         <p>Language: {bookLanguage()}</p>

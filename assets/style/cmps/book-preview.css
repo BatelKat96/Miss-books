@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
 }
 
 .book-preview h4 {
@@ -17,6 +16,16 @@
 }
 
 .on-sale {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    border-radius: 50%;
     position: absolute;
-    left: 0;
+    right: 0;
+    top: 50px;
+    background-color: rgb(241, 126, 126);
+    padding: 7px;
+    color: gold;
+    border: 2px dotted gold;
+    font-size: 1em;
 }

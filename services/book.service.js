@@ -6,7 +6,7 @@ _createBooks()
 
 
 
-export const booksService = {
+export const bookService = {
     query,
     get,
     remove,

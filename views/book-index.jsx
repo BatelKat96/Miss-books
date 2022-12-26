@@ -1,18 +1,18 @@
 const { useState, useEffect } = React
 
 
-import { BooksList } from '../cmps/books-list.jsx';
-import { BooksFilter } from '../cmps/books-filter.jsx';
+import { BookList } from '../cmps/book-list.jsx';
+import { BookFilter } from '../cmps/book-filter.jsx';
 import { UserMsg } from '../cmps/user-msg.jsx';
 import { BookDetails } from './book-details.jsx';
 import { BookEdit } from '../cmps/book-edit.jsx';
 
-import { booksService } from '../services/books.service.js'
+import { bookService } from '../services/book.service.js'
 
 
-export function BooksIndex() {
+export function BookIndex() {
 
-    const [filterBy, setFilterBy] = useState(booksService.getDefaultFilter())
+    const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
     const [books, setBooks] = useState([])
     const [selectedBook, setSelectedBook] = useState(null)
     const [userMsg, setUserMsg] = useState('')
@@ -23,9 +23,8 @@ export function BooksIndex() {
     }, [filterBy])
 
     function loadBooks() {
-        booksService.query(filterBy).then(booksToUpdate => {
-            setBooks(booksToUpdate)
-        })
+        bookService.query(filterBy).
+            then(booksToUpdate => setBooks(booksToUpdate))
     }
 
     function onSetFilter(filterByFromFilter) {
@@ -43,7 +42,7 @@ export function BooksIndex() {
 
     function onSelectBook(bookId) {
         // setSelectedCar(car)
-        booksService.get(bookId).then((book) => {
+        bookService.get(bookId).then((book) => {
             setSelectedBook(book)
         })
     }
@@ -56,12 +55,12 @@ export function BooksIndex() {
     }
 
 
-    return <section className="books-index ">
+    return <section className="book-index ">
         {userMsg && <UserMsg msg={userMsg} />}
         {!selectedBook && <div>
-            <BooksFilter onSetFilter={onSetFilter} />
+            <BookFilter onSetFilter={onSetFilter} />
             <BookEdit />
-            <BooksList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />
+            <BookList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />
         </div>}
 
         {selectedBook && <BookDetails

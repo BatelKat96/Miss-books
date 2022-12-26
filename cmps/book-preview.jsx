@@ -1,4 +1,3 @@
-import { LongTxt } from "../cmps/long-txt.jsx";
 
 
 export function BookPreview({ book }) {
@@ -10,6 +9,5 @@ export function BookPreview({ book }) {
         <h3>Price: {book.listPrice.amount} {book.listPrice.currencyCode}</h3>
 
         <img src={book.thumbnail} />
-        <LongTxt book={book.description} length={book.description.length} />
     </article>
 }

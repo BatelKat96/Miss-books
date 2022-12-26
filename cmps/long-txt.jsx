@@ -1,28 +1,21 @@
 
-const { useState } = React;
+const { useState } = React
 
-export function LongTxt({ book, length }) {
-    const [isShowAll, setIsShowAll] = useState(false);
-    var shortTxt = book.substring(0, 100)
+export function LongTxt({ txt, length }) {
 
-    return <section >
-        {isShowAll &&
-            <div>
-                <p>{book}
-                    <button className="btn-show" onClick={() => { setIsShowAll(false) }}> Show less</button>
-                </p>
-            </div>
-        }
-        {!isShowAll &&
-            <div>
-                <p>{shortTxt}
+    const [isLongTxtShown, setLongTxtShown] = useState(false)
 
-                    {length > 100 && <button className="btn-show" onClick={() => { setIsShowAll(true) }}> Show more</button>}
-                </p>
-            </div>
-        }
+    function getTxtToShow(isLongTxtShown, txt, length) {
+        return (txt.length < length || isLongTxtShown) ? txt : txt.substring(0, length + 1) + '...'
+    }
 
-    </section>
+    function onToggleLongTxt() {
+        setLongTxtShown((prevLongTxtShown) => !prevLongTxtShown)
+    }
+
+    return <div>
+        <p>{getTxtToShow(isLongTxtShown, txt, length)}{txt.length > length && <button onClick={onToggleLongTxt}>{isLongTxtShown ? 'Read Less' : 'Read More'}</button>}
+        </p>
+    </div>
+
 }
-
-

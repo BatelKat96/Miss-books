@@ -26,10 +26,3 @@
 .green {
     color: green;
 }
-
-.on-sale {
-    background-color: rgb(241, 126, 126);
-    padding: 7px;
-    color: gold;
-    border: 2px dotted gold;
-}

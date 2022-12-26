@@ -1,11 +1,11 @@
 const { useState, useEffect } = React
 
-import { booksService } from "../services/books.service.js"
+import { bookService } from "../services/book.service.js"
 
 
-export function BooksFilter({ onSetFilter }) {
+export function BookFilter({ onSetFilter }) {
 
-    const [filterByToEdit, setFilterByToEdit] = useState(booksService.getDefaultFilter())
+    const [filterByToEdit, setFilterByToEdit] = useState(bookService.getDefaultFilter())
 
     useEffect(() => {
         onSetFilter(filterByToEdit)
@@ -27,7 +27,7 @@ export function BooksFilter({ onSetFilter }) {
 
     console.log('filterByToEdit:', filterByToEdit)
 
-    return <section className="books-filter">
+    return <section className="book-filter">
         <h2>Filter our books</h2>
         <form onSubmit={onSubmitFilter}>
             <label htmlFor="title">Title:</label>
