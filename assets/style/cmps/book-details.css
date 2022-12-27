@@ -6,17 +6,57 @@
 
 .book-details h1 {
     color: var(--clr1);
-    font-size: 2em;
+    font-size: 2.25em;
+    margin-bottom: 0.1em;
 }
 
-.book-details h5 {
-    color: var(--clr2);
+.book-details h2 {
+    margin: 0.1em 0 0.25em;
 }
 
 .book-details img {
     max-width: 200px;
     display: block;
     margin: auto;
+}
+
+.book-details .price {
+    width: 100%;
+    text-align: center;
+}
+
+.book-details h4 {
+    font-size: 1.75em;
+    color: var(--clr2);
+    margin: 0;
+}
+
+.book-details .p-title {
+    font-weight: bold;
+}
+
+.book-details p {
+    margin: 0.50em 0;
+}
+
+.book-details .btn-edit-book {
+    cursor: pointer;
+    background-color: var(--clr1);
+    margin: 0.5em;
+    border: 0;
+    border-radius: 4px;
+
+    color: aliceblue;
+    padding: 0.5em 0.8em;
+}
+
+.book-details .btn-go-back {
+
+    padding: 0.5em 0.8em;
+    background-color: var(--clr1);
+    color: aliceblue;
+    align-self: flex-end;
+
 }
 
 .red {

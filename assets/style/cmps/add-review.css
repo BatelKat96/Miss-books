@@ -1,0 +1,26 @@
+.add-review {
+    margin: 15px auto;
+    width: 100%;
+    border: 2px black solid;
+    padding: 15px;
+    text-align: center;
+}
+
+.add-review h2 {
+    margin-top: 0;
+}
+
+.review-form {
+    display: grid;
+    gap: 10px;
+
+}
+
+.review-form .btn-add-review {
+    margin: auto;
+}
+
+.review-form input {
+    width: 150px;
+    text-align: left;
+}

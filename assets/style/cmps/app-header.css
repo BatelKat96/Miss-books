@@ -9,6 +9,11 @@
   gap: 15px;
 }
 
+.active {
+  font-weight: bold;
+  border-bottom: 2px solid;
+}
+
 @media(max-width: 720px) {
   .app-header {
     color: var(--clr2bg);

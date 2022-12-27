@@ -13,6 +13,8 @@ export const bookService = {
     save,
     getEmptyBook,
     getDefaultFilter,
+    addReview,
+    removeReview
 }
 
 function query(filterBy = getDefaultFilter()) {
@@ -42,9 +44,26 @@ function query(filterBy = getDefaultFilter()) {
         })
 }
 
+function addReview(bookId, review) {
+    get(bookId).then((book) => {
+        if (!book.reviews) book.reviews = []
+        book.reviews.push(review)
+        save(book)
+    })
+}
+
+function removeReview(bookId, reviewId) {
+
+    return get(bookId).then((book) => {
+        var reviewIdx = book.reviews.findIndex((review) => review.id === reviewId)
+        book.reviews.splice(reviewIdx, 1)
+        save(book)
+
+    })
+}
+
 function get(bookId) {
     return storageService.get(BOOKS_KEY, bookId)
-    // return axios.get(CAR_KEY, carId)
 }
 
 function remove(bookId) {
@@ -59,8 +78,23 @@ function save(book) {
     }
 }
 
-function getEmptyBook(title = '', price = '') {
-    return { id: '', description: '', title, price }
+function getEmptyBook(title = '', price = '', currency = 'EUR', author = '') {
+    return {
+        id: '',
+        description: '',
+        title,
+        authors: author,
+        listPrice: {
+            amount: price,
+            currencyCode: currency,
+            isOnSale: 'false'
+        },
+        description: 'mi est eros convallis auctor arcu dapibus himenaeos',
+        language: 'en',
+        pageCount: 713,
+        publishedDate: 1999,
+        thumbnail: '../assets/img/books.png'
+    }
 }
 
 function getDefaultFilter() {
@@ -86,8 +120,6 @@ function _createBooks() {
 //     book.description = utilService.makeLorem()
 //     return book
 // }
-
-
 
 
 function _createBooks() {

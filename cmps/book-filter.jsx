@@ -25,9 +25,7 @@ export function BookFilter({ onSetFilter }) {
     }
 
 
-    console.log('filterByToEdit:', filterByToEdit)
-
-    return <section className="book-filter">
+    return <section className="book-filter full main-layout">
         <h2>Filter our books</h2>
         <form onSubmit={onSubmitFilter}>
             <label htmlFor="title">Title:</label>
@@ -74,7 +72,7 @@ export function BookFilter({ onSetFilter }) {
             </select>
 
 
-            <button>Filter books!</button>
+            <button className="btn-filter-book" >Filter books!</button>
         </form>
 
     </section>

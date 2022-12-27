@@ -15,3 +15,19 @@
     text-align: center;
     position: relative;
 }
+
+.book-list .btn-select-book {
+    cursor: pointer;
+    background-color: var(--clr2bg);
+    margin: 0.5em;
+    border: 0;
+    padding: 0.3em 0.8em;
+    border-radius: 4px;
+}
+
+.book-list .btn-select-book:hover {
+
+    background-color: var(--clr2);
+    color: white;
+    transition: .3s;
+}

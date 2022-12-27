@@ -1,0 +1,23 @@
+.reviews-section {
+    width: 100%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.review {
+    padding: 10px 15px;
+    width: 100%;
+    background-color: var(--clr1bg);
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.review p {
+    margin: 0;
+}
+
+.btn-remove-review {
+    margin-right: 0;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

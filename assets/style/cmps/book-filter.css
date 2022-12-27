@@ -1,8 +1,29 @@
 .book-filter {
     background-color: var(--clr2bg);
+    padding: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .book-filter form {
     display: grid;
     grid-template-columns: 100px 200px;
+    gap: 5px;
+}
+
+
+.book-filter .btn-filter-book {
+    padding: 10px 3px;
+    background-color: rgb(255, 255, 255);
+    font-weight: bold;
+    color: var(--clr2);
+    grid-column: 2;
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+}
+
+.book-filter .btn-filter-book:hover {
+
+    background-color: var(--clr2);
+    color: white;
+    transition: .3s;
 }

@@ -1,21 +1,19 @@
 const { useState, useEffect } = React
-
+const { Link } = ReactRouterDOM
 
 import { BookList } from '../cmps/book-list.jsx';
 import { BookFilter } from '../cmps/book-filter.jsx';
-import { UserMsg } from '../cmps/user-msg.jsx';
-import { BookDetails } from './book-details.jsx';
-import { BookEdit } from '../cmps/book-edit.jsx';
 
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js';
 import { bookService } from '../services/book.service.js'
 
 
 export function BookIndex() {
 
+    const [isLoading, setIsLoading] = useState(false)
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
     const [books, setBooks] = useState([])
-    const [selectedBook, setSelectedBook] = useState(null)
-    const [userMsg, setUserMsg] = useState('')
+
 
 
     useEffect(() => {
@@ -32,42 +30,29 @@ export function BookIndex() {
     }
 
     function onRemoveBook(bookId) {
-        booksService.remove(bookId).then(() => {
+        bookService.remove(bookId).then(() => {
             const updatedBooks = books.filter(book => book.id !== bookId)
             setBooks(updatedBooks)
-            flashMsg('Book removed!')
+            showSuccessMsg('Car removed')
         })
+            .catch((err) => {
+                console.log('Had issues removing', err)
+                showErrorMsg('Could not remove car, try again please!')
+            })
     }
 
 
-    function onSelectBook(bookId) {
-        // setSelectedCar(car)
-        bookService.get(bookId).then((book) => {
-            setSelectedBook(book)
-        })
-    }
 
-    function flashMsg(msg) {
-        setUserMsg(msg)
-        setTimeout(() => {
-            setUserMsg('')
-        }, 3000)
-    }
+    return <section className="book-index full main-layout">
 
-
-    return <section className="book-index ">
-        {userMsg && <UserMsg msg={userMsg} />}
-        {!selectedBook && <div>
+        <div className="full main-layout">
             <BookFilter onSetFilter={onSetFilter} />
-            <BookEdit />
-            <BookList books={books} onRemoveBook={onRemoveBook} onSelectBook={onSelectBook} />
-        </div>}
+            <Link className="btn-add-book" to="/book/edit">Add Book!</Link>
 
-        {selectedBook && <BookDetails
-            book={selectedBook}
-            onGoBack={() => setSelectedBook(null)}
-        />}
-
+            {!isLoading && <BookList books={books} onRemoveBook={onRemoveBook} />}
+            {isLoading && <div>Loading..</div>}
+            {!books.length && <div>No items to show..</div>}
+        </div>
 
     </section>
 }
