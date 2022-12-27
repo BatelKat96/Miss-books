@@ -9,6 +9,7 @@ import { BookDetails } from './views/book-details.jsx';
 import { BookEdit } from './views/book-edit.jsx';
 import { UserMsg } from './cmps/user-msg.jsx'
 
+
 export function App() {
 
     return <Router>
@@ -19,6 +20,7 @@ export function App() {
                 <Routes>
                     <Route element={<Home />} path="/" />
                     <Route element={<About />} path="/about" />
+                    <Route element={<BookIndex />} path="/book" />
                     <Route element={<BookIndex />} path="/book" />
                     <Route element={<BookEdit />} path="/book/edit" />
                     <Route element={<BookEdit />} path="/book/edit/:carId" />

@@ -3,26 +3,29 @@ const { useParams, useNavigate, Link } = ReactRouterDOM
 
 import { AddReview } from '../cmps/add-review.jsx'
 import { LongTxt } from "../cmps/long-txt.jsx"
-import { ShowReview } from '../cmps/show-review.jsx'
+import { ReviewList } from '../cmps/review-list.jsx'
 
 import { bookService } from '../services/book.service.js'
 
 export function BookDetails() {
     const [book, setBook] = useState(null)
-    const params = useParams()
+    const [nextBookId, setNextBookId] = useState(null)
+    const { bookId } = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
         loadBook()
-    }, [book])
+    }, [bookId])
 
     function loadBook() {
-        bookService.get(params.bookId)
+        bookService.get(bookId)
             .then((book) => setBook(book))
             .catch((err) => {
                 console.log('Had issues in book details', err)
                 navigate('/book')
             })
+        bookService.getNextBookId(bookId)
+            .then(setNextBookId)
     }
 
     function onGoBack() {
@@ -53,7 +56,25 @@ export function BookDetails() {
         else return ''
     }
 
+    function onRemoveReview(reviewId) {
+        bookService.removeReview(book.id, reviewId).then(() => {
+            const filteredReviews = book.reviews.filter((review) => review.id !== reviewId)
+            setBook({ ...book, reviews: filteredReviews })
+        })
+    }
 
+
+    function onSaveReview(reviewToAdd) {
+        bookService.saveReview(book.id, reviewToAdd)
+            .then((review) => {
+                const reviews = [review, ...book.reviews]
+                setBook({ ...book, reviews })
+            })
+            .catch((err) => {
+                console.log('err:', err);
+
+            })
+    }
 
 
     if (!book) return <div>Loading...</div>
@@ -71,10 +92,13 @@ export function BookDetails() {
         <p><span className="p-title">Language: </span>{bookLanguage()}</p>
 
         <Link className="btn-edit-book" to={`/book/edit/${book.id}`}>Edit book </Link>
-        <AddReview />
 
-        {/* <div>{book.reviews.map(review => <ShowReview key={review.id} review={review} />)}</div> */}
-        <ShowReview reviews={book.reviews} />
+        <Link className="btn-next-book" to={`/book/${nextBookId}`}>Next book</Link>
+
+        <AddReview onSaveReview={onSaveReview} />
+
+        {<ReviewList book={book} onRemoveReview={onRemoveReview} />}
+
         <button className="btn-go-back" onClick={onGoBack}>Go Back</button>
     </section>
 }

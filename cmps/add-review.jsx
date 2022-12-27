@@ -5,58 +5,67 @@ import { bookService } from "../services/book.service.js"
 import { utilService } from '../services/util.service.js'
 
 
+export function AddReview({ onSaveReview }) {
 
-export function AddReview() {
-    const { bookId } = useParams()
+    const [review, setReview] = useState(bookService.getDefaultReview())
 
-    function onAddReview(ev) {
-        ev.preventDefault()
-        const fullName = ev.target.fullname.value
-        const rate = ev.target.rate.value
-        const dateRead = ev.target.dateRead.value
 
-        const review = {
-            fullName,
-            rate,
-            dateRead,
-            id: utilService.makeId()
-        }
-        bookService.addReview(bookId, review)
+    function handleChange({ target }) {
+        let { value, name: field, type } = target
+        value = type === "range" ? +value : value
+        setReview((prevReview => {
+            return { ...prevReview, [field]: value }
+        }))
     }
 
-    return <section className="add-review">
-        <h2>Add review...</h2>
-        <form onSubmit={onAddReview} className="review-form">
-            <div>
-                <label htmlFor="fullname">Full name: </label>
-                <input type="text"
-                    name="fullname"
-                    id="fullname"
-                    placeholder="Enter your name..."
+    function onSubmitReview(ev) {
+        ev.preventDefault()
+        onSaveReview(review)
+    }
 
-                />
-            </div>
-            <div>
-                <label htmlFor="rate">Rate: </label>
-                <input type="number"
-                    name="rate"
-                    id="rate"
-                    min="1" max="5"
-                    placeholder="Enter book rate (1-5)"
-                />
-            </div>
+    return <article className="add-review">
+        <h2>Rate this book</h2>
+        <form onSubmit={onSubmitReview} className="review-form">
+            <label htmlFor="full-name">Full name:</label>
+            <input type="text"
+                id="full-name"
+                name="fullName"
+                placeholder="Enter full name..."
+                value={review.fullName}
+                onChange={handleChange} />
 
-            <div>
-                <label htmlFor="dateRead">Read at: </label>
-                <input type="date"
-                    name="dateRead"
-                    id="dateRead"
-                />
-            </div>
-            <button className="btn-add-review">Add review!</button>
+            <label htmlFor="rating">Rate this book:</label>
+            <input type="range"
+                id="rating"
+                max="5"
+                min="0"
+                name="rating"
+                value={review.rating}
+                title={review.rating}
+                onChange={handleChange}
+            />
+
+            <label htmlFor="readAt">Read at:</label>
+            <input type="date"
+                id="readAt"
+                name="readAt"
+                value={review.readAt}
+                onChange={handleChange} />
+
+            <button className="btn-add-review">Add review</button>
         </form>
-
-
-    </section>
-
+    </article>
 }
+
+
+            // <div>
+            //     <label htmlFor="rate">Rate: </label>
+            //     <input type="number"
+            //         name="rate"
+            //         id="rate"
+            //         min="1" max="5"
+            //         placeholder="Enter book rate (1-5)"
+            //     />
+            // </div>
+
+

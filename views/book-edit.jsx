@@ -25,7 +25,6 @@ export function BookEdit() {
     }
 
     function handleChange({ target }) {
-
         let { value, type, name: field } = target
         value = type === 'number' ? +value : value
         setBookToEdit((prevBook) => ({ ...prevBook, [field]: value }))

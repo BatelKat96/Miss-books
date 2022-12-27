@@ -13,8 +13,11 @@ export const bookService = {
     save,
     getEmptyBook,
     getDefaultFilter,
-    addReview,
-    removeReview
+    getDefaultReview,
+    saveReview,
+    removeReview,
+    getNextBookId,
+    addNewBook
 }
 
 function query(filterBy = getDefaultFilter()) {
@@ -44,22 +47,55 @@ function query(filterBy = getDefaultFilter()) {
         })
 }
 
-function addReview(bookId, review) {
-    get(bookId).then((book) => {
-        if (!book.reviews) book.reviews = []
-        book.reviews.push(review)
-        save(book)
-    })
+function getDefaultReview() {
+    return { fullName: '', rating: 0, readAt: '', id: '' }
+}
+
+function getNextBookId(bookId) {
+    return storageService.query(BOOKS_KEY)
+        .then(books => {
+            var idx = books.findIndex(book => book.id === bookId)
+            if (idx === books.length - 1) idx = -1
+            return books[idx + 1].id
+        })
+}
+
+function addNewBook(book) {
+    const title = book.volumeInfo.title
+    const thumbnail = book.volumeInfo.imageLinks.smallThumbnail
+    const description = book.volumeInfo.description
+    const authors = book.volumeInfo.authors
+    const newBook = createBookToAdd(title, authors, thumbnail, description)
+    storageService.post(BOOKS_KEY, newBook)
+
+}
+
+function saveReview(bookId, reviewToSave) {
+    const books = _loadBooksFromStorage()
+    const book = books.find((book) => book.id === bookId)
+    const review = _createReview(reviewToSave)
+    console.log('review:', review);
+
+    // if (!book.reviews) book[reviews] = []
+    book.reviews.unshift(review)
+    _saveBooksToStorage(books)
+    return Promise.resolve(review)
 }
 
 function removeReview(bookId, reviewId) {
+    let books = _loadBooksFromStorage()
+    let book = books.find((book) => book.id === bookId)
+    const newReviews = book.reviews.filter((review) => review.id !== reviewId)
+    book.reviews = newReviews
+    _saveBooksToStorage(books)
+    return Promise.resolve()
+}
 
-    return get(bookId).then((book) => {
-        var reviewIdx = book.reviews.findIndex((review) => review.id === reviewId)
-        book.reviews.splice(reviewIdx, 1)
-        save(book)
-
-    })
+function _createReview(reviewToSave) {
+    return {
+        id: utilService.makeId(),
+        ...reviewToSave,
+    }
 }
 
 function get(bookId) {
@@ -113,6 +149,14 @@ function _createBooks() {
     }
 
 }
+function _saveBooksToStorage(books) {
+    storageService.saveToStorage(BOOKS_KEY, books)
+}
+
+function _loadBooksFromStorage() {
+    return storageService.loadFromStorage(BOOKS_KEY)
+}
+
 
 // function _createBook(title, price) {
 //     const book = getEmptyBook(title, price)
@@ -567,9 +611,32 @@ function _createBooks() {
                 }
             }
         ]
-
+        books.forEach(book => {
+            book.price = book.listPrice.amount
+            book.reviews = []
+        })
         utilService.saveToStorage(BOOKS_KEY, books)
 
 
+    }
+}
+
+
+function createBookToAdd(title = '', authors = 'Unknown', thumbnail = '../assets/img/books.png', description = 'mi est eros convallis auctor arcu dapibus himenaeos', price = 30) {
+    return {
+        id: '',
+        description: '',
+        title,
+        authors,
+        listPrice: {
+            amount: price,
+            currencyCode: 'EUR',
+            isOnSale: 'false'
+        },
+        description,
+        language: 'en',
+        pageCount: 713,
+        publishedDate: 1999,
+        thumbnail
     }
 }
